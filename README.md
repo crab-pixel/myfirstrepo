@@ -23,3 +23,17 @@ Added `tb_dump`, a testbench for the `vga_bars` module. It runs from a 25 MHz
 pixel clock and writes three frames of `vsync_n`, red, green, and blue values
 to `pixels.txt`. This data can be used to inspect the generated colour bars
 outside the simulator.
+
+### 2026-11-08 — Tiny Tapeout top-level wiring
+
+Added the `tt_um_crabby605_dvd` top-level module. It connects the DVD bouncer
+to Tiny Tapeout's standard interface and maps the 2-bit RGB signals plus VGA
+sync signals to the TinyVGA PMOD output order. The bidirectional pins are left
+as inputs because this project does not use them.
+
+### 2026-11-08 — Project manifest
+
+Defined the Tiny Tapeout project metadata for a one-tile Verilog design named
+**DVD Bounce VGA**. The manifest sets `tt_um_crabby605_dvd` as the top module,
+lists the top-level, bouncer, and VGA sync source files, and requests a
+25.175 MHz VGA pixel clock.
