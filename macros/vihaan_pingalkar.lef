@@ -12,6 +12,12 @@ MACRO vihaan_pingalkar
   ORIGIN 0 0 ;
   SIZE 76.800 BY 8.800 ;
   SYMMETRY X Y ;
+  # The GDS artwork uses Metal5.  Reserve that layer across the macro so
+  # signal routing cannot overlap the decorative geometry.
+  OBS
+    LAYER Metal5 ;
+      RECT 0.000 0.000 76.800 8.800 ;
+  END
 END vihaan_pingalkar
 
 END LIBRARY
