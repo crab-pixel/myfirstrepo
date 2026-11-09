@@ -1,39 +1,30 @@
-# VGA DVD Bouncer
+# DVD Bounce VGA
 
-VGA DVD Bouncer is a tiny video demo made for ASIC Hack Club.
+A 640×480 VGA DVD-style screensaver built in Verilog for a one-tile Tiny
+Tapeout GF180 submission. The 128×64 logo moves two pixels each frame, bounces
+at the screen edges, and changes colour on a bounce.
 
-Connect it to a VGA display to see a colour-bar test pattern, useful for
-checking that the screen and wiring are working. Switch to demo mode to watch a
-bright block bounce around the screen like the classic DVD screensaver.
+The project follows the [Tiny Tapeout GF180 Verilog template](https://github.com/TinyTapeout/ttgf-verilog-template):
 
-The design is written in Verilog and fits on a Tiny Tapeout tile.
+- `src/` contains synthesizable RTL and LibreLane configuration.
+- `info.yaml` declares the project, top module, pins, and source files.
+- `test/` contains the cocotb RTL / gate-level test setup.
+- `docs/info.md` supplies the generated datasheet content.
+- `.github/workflows/` runs test, GDS, precheck, viewer, docs, and FPGA workflows.
 
-## Progress log
+## Local checks
 
-### 2026-11-08 — VGA bouncer testbench
+Run a dependency-free compile/simulation smoke check:
 
-Added `tb_dvd`, a simulation testbench for the bouncing box. It uses a large
-620×460 box so the box only has 20 pixels of travel on each axis. The test
-checks that the box stays inside the visible 640×480 area, reaches both far
-edges, and returns to the origin after bouncing.
+```sh
+make smoke
+```
 
-### 2026-11-08 — VGA colour-bar pixel dump
+For the cocotb test, install `test/requirements.txt`, then run:
 
-Added `tb_dump`, a testbench for the `vga_bars` module. It runs from a 25 MHz
-pixel clock and writes three frames of `vsync_n`, red, green, and blue values
-to `pixels.txt`. This data can be used to inspect the generated colour bars
-outside the simulator.
+```sh
+make test
+```
 
-### 2026-11-08 — Tiny Tapeout top-level wiring
-
-Added the `tt_um_crabby605_dvd` top-level module. It connects the DVD bouncer
-to Tiny Tapeout's standard interface and maps the 2-bit RGB signals plus VGA
-sync signals to the TinyVGA PMOD output order. The bidirectional pins are left
-as inputs because this project does not use them.
-
-### 2026-11-08 — Project manifest
-
-Defined the Tiny Tapeout project metadata for a one-tile Verilog design named
-**DVD Bounce VGA**. The manifest sets `tt_um_crabby605_dvd` as the top module,
-lists the top-level, bouncer, and VGA sync source files, and requests a
-25.175 MHz VGA pixel clock.
+See [the project datasheet](docs/info.md) for implementation and hardware
+details.
