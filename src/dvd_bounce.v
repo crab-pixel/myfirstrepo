@@ -8,9 +8,12 @@ module dvd_bounce #(
     output reg [1:0] blue
 );
     wire [9:0] pixel_x, pixel_y;
+    wire video_active;
+
     vga_sync sync_generator (
         .pixel_clk(pixel_clk), .reset_n(reset_n), .hsync_n(hsync_n),
-        .vsync_n(vsync_n), .video_active(), .pixel_x(pixel_x), .pixel_y(pixel_y)
+        .vsync_n(vsync_n), .video_active(video_active),
+        .pixel_x(pixel_x), .pixel_y(pixel_y)
     );
     localparam MAX_BOX_X = 640 - BOX_WIDTH;
     localparam MAX_BOX_Y = 480 - BOX_HEIGHT;
@@ -57,7 +60,10 @@ module dvd_bounce #(
         ((((logo_pixel_x >= 9) && (logo_pixel_x <= 12)) || ((logo_pixel_x >= 52) && (logo_pixel_x <= 55))) && (logo_pixel_y >= 5) && (logo_pixel_y <= 6));
     wire is_dvd_logo_pixel = is_left_d_pixel || is_v_pixel || is_right_d_pixel || is_top_swoosh_pixel;
     always @(posedge pixel_clk) begin
-        if (!reset_n || !pixel_inside_box || !is_dvd_logo_pixel) {red, green, blue} <= 0;
+        // Explicitly blank during the VGA porch/sync intervals, even if the
+        // logo geometry or timing constants are changed in the future.
+        if (!reset_n || !video_active || !pixel_inside_box || !is_dvd_logo_pixel)
+            {red, green, blue} <= 0;
         else case (color_index)
             0: {red, green, blue} <= 6'b001100;
             1: {red, green, blue} <= 6'b001111;
