@@ -3,6 +3,11 @@
 
 `default_nettype none
 
+// Fixed Metal5 silicon-art macro; its geometry is supplied by macros/.
+(* blackbox *) (* keep *)
+module vihaan_pingalkar ();
+endmodule
+
 // VGA DVD-bounce demo for the Tiny Tapeout standard project interface.
 module tt_um_crabby605_dvd (
     input  wire [7:0] ui_in,
@@ -30,6 +35,9 @@ module tt_um_crabby605_dvd (
                      vsync_n, blue[1], green[1], red[1]};
     assign uio_out = 8'h00;
     assign uio_oe  = 8'h00;
+
+    // Keep the physical "Vihaan Pingalkar" macro in the final GDS.
+    (* keep *) vihaan_pingalkar signature ();
 
     wire _unused = &{ena, ui_in, uio_in, 1'b0};
 endmodule

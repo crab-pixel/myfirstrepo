@@ -22,5 +22,19 @@
   "RUN_CTS": 1,
   "FP_PDN_MULTILAYER": 0,
   "MAGIC_DEF_LABELS": 0,
-  "MAGIC_WRITE_LEF_PINONLY": 1
+  "MAGIC_WRITE_LEF_PINONLY": 1,
+  "MACROS": {
+    "vihaan_pingalkar": {
+      "instances": {
+        "signature": {
+          "location": [10, 10],
+          "orientation": "N"
+        }
+      },
+      "gds": ["dir::../macros/vihaan_pingalkar.gds"],
+      "lef": ["dir::../macros/vihaan_pingalkar.lef"]
+    }
+  },
+  "IGNORE_DISCONNECTED_MODULES": ["vihaan_pingalkar", "signature"],
+  "ERROR_ON_DISCONNECTED_PINS": false
 }
